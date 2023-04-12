@@ -1,0 +1,16 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+.snack-bar-success{
+  background-color: #52D452;
+  border-radius: 6px;
+}
+
+
+.add-new-task-dialog .mat-dialog-container {
+  height: 600px;
+  width: 480px;
+  border-radius: 10px;
+
+  .mat-dialog-content {
+    height: calc(100% - 94px);
+  }
+}

@@ -1,0 +1,27 @@
+.wrapper{
+  height: 100%;
+}
+tbody{
+  tr{
+    &:hover{
+      cursor: pointer;
+      background-color: rgba(0,0,0,0.1) !important;
+    }
+  }
+}
+
+
+
+.actions {
+  button{
+    width: 100%;
+  }
+}
+
+.add-task-button{
+  margin-top: 10px;
+}
+
+.completed{
+  color: #52D452;
+}

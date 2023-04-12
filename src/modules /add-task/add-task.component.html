@@ -1,0 +1,25 @@
+<div class="mat-dialog-header">
+  <h3 mat-dialog-title>
+    {{data.title}}
+  </h3>
+</div>
+<mat-dialog-content>
+
+  <form [formGroup]="formGroup">
+    <div class="wrapper">
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Assignee</mat-label>
+        <mat-select formControlName="assigneeId">
+          <mat-option *ngFor="let user of users$ | async" [value]="user?.id">{{user?.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-stroked-button color="accent" (click)="submitNewTask()">Submit</button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>

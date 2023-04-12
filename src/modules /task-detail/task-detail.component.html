@@ -1,0 +1,5 @@
+<div class="task-detail" *ngIf="taskDetail$ | async as taskDetail">
+    <div class="task-detail__description">{{taskDetail?.description}}</div>
+    <div class="task-detail__status">{{taskDetail?.completed | getTaskStatus}}</div>
+    <div class="task-detail__assignee">{{(taskDetail?.assigneeId | getAssigneeById: (this.user$ | async))?.name}}</div>
+</div>x
