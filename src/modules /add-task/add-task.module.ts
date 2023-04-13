@@ -8,6 +8,7 @@ import { UserService } from 'src/service/user.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatInputModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ],
   providers: [UserService],
   exports: [AddTaskComponent]

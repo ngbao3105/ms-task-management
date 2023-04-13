@@ -1,16 +1,12 @@
 .wrapper{
   height: 100%;
 }
-tbody{
-  tr{
+  .mdc-data-table__content ,.mat-mdc-row{
     &:hover{
       cursor: pointer;
       background-color: rgba(0,0,0,0.1) !important;
     }
   }
-}
-
-
 
 .actions {
   button{
@@ -25,3 +21,31 @@ tbody{
 .completed{
   color: #52D452;
 }
+
+.header-wrapper{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  
+}
+
+.list-search-bar{
+  width: 100%;
+  .mat-mdc-form-field{
+  width: 100%;
+}
+}
+.mat-column-assigneeId {
+  width: 15%;
+}
+
+.mat-column-completed{
+  width: 15%;
+}
+
+@media only screen and (max-width:768px) {
+  .mat-column-assigneeId{
+    display: none;
+  }
+  }
+

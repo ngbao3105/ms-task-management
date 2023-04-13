@@ -1,4 +1,4 @@
 export enum TaskStatusEnum {
   COMPLETED = 'Completed',
-  WIP = 'WIP'
+  WIP = 'Work-in-progress'
 }

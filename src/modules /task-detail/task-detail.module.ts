@@ -6,6 +6,9 @@ import { TaskService } from 'src/service/task.service';
 import { UserService } from 'src/service/user.service';
 import { TaskDetailRoutingModule } from './task-detail-routing.module';
 import { GetAssigneeByIdPipe } from 'src/pipes/get-assignee-by-id.pipe';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -17,7 +20,10 @@ import { GetAssigneeByIdPipe } from 'src/pipes/get-assignee-by-id.pipe';
   ],
   imports: [
     CommonModule,
-    TaskDetailRoutingModule
+    TaskDetailRoutingModule,
+    MatProgressBarModule,
+    RouterModule,
+    MatButtonModule
   ],
   providers: [TaskService, UserService]
 })

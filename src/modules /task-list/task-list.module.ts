@@ -12,20 +12,29 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { AddTaskModule } from '../add-task/add-task.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FilterModule } from '../filter/filter.module';
+import { GetAssigneeOptions } from 'src/pipes/get-assignee-options.pipe';
 @NgModule({
   declarations: [
-    TaskListComponent
+    TaskListComponent,
+    GetAssigneeOptions
+
   ],
   imports: [
     CommonModule,
     MatTableModule,
     MatSelectModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatProgressBarModule,
     MatSnackBarModule,
+    MatInputModule,
     MatIconModule,
     AddTaskModule,
-    MatDialogModule
+    MatDialogModule,
+    FilterModule
   ],
   providers: [BackendService, UserService, TaskService]
 })

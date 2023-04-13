@@ -1,0 +1,10 @@
+<mat-icon class="filter-icon" svgIcon="filter" [matMenuTriggerFor]="menu"></mat-icon>
+
+<mat-menu #menu="matMenu">
+    <ng-container *ngFor="let option of menuOptions">
+        <button mat-menu-item (click)="$event?.stopImmediatePropagation()">
+            <mat-checkbox (change)="onOptionChanged($event, option)">
+                {{option?.label}}</mat-checkbox>
+        </button>
+    </ng-container>
+</mat-menu>

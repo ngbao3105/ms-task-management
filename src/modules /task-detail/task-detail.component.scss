@@ -1,0 +1,32 @@
+.wrapper{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task-detail{
+    padding:50px;
+    max-width: 90%;
+    border: 1px solid rgba($color: grey, $alpha: 0.5);;
+    background-color: rgba($color: grey, $alpha: 0.1);
+    border-radius: 6px;
+    &__item{
+        display: flex;
+        gap: 5px;
+    }
+    .label{
+        font-weight: bold;
+    }
+    
+}
+
+.back{
+    margin-top: 10px;
+}
+
+@media only screen and (max-width:768px) {
+.task-detail{
+    max-width: 60%;
+}
+}

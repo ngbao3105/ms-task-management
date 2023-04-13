@@ -1,4 +1,5 @@
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 .snack-bar-success{
   background-color: #52D452;
   border-radius: 6px;
@@ -13,4 +14,8 @@
   .mat-dialog-content {
     height: calc(100% - 94px);
   }
+}
+
+.mat-column-assigneeId,.mat-column-completed {
+  width: 10%;
 }

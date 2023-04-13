@@ -1,6 +1,11 @@
 <div class="mat-dialog-header">
   <h3 mat-dialog-title>
     {{data.title}}
+    <div class="close">
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon svgIcon="close"></mat-icon>
+      </button>
+    </div>
   </h3>
 </div>
 <mat-dialog-content>
@@ -17,8 +22,8 @@
           <mat-option *ngFor="let user of users$ | async" [value]="user?.id">{{user?.name}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <div>
-        <button mat-stroked-button color="accent" (click)="submitNewTask()">Submit</button>
+      <div class='submit-button'>
+        <button mat-raised-button color="primary" (click)="submitNewTask()">Submit</button>
       </div>
     </div>
   </form>

@@ -1,13 +1,25 @@
 <div class="wrapper">
 
   <mat-progress-bar *ngIf="isSpinnerLoading$ | async" mode="indeterminate"></mat-progress-bar>
+  <div class="list-search-bar">
+    <mat-form-field>
+      <mat-label>Search tasks by description, status or assignee</mat-label>
+      <input matInput [formControl]="searchControl">
+    </mat-form-field>
+  </div>
   <table mat-table [dataSource]="tasks$ | async" class="mat-elevation-z8">
     <!-- Position Column -->
     <ng-container matColumnDef="completed">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="header-wrapper">
+          Status
+          <app-filter [menuOptions]="taskStatus$ | async" (filterClicked)="statusFilterChange($event)"></app-filter>
+
+        </div>
+      </th>
       <td mat-cell *matCellDef="let element">
         <mat-select (selectionChange)="completeTask($event,element?.id)" [value]="element?.completed">
-          <mat-option *ngFor="let status of taskStatus$ | async" [value]="status?.value">
+          <mat-option *ngFor="let status of taskStatus$ | async " [value]="status?.value">
             {{status?.label}}
           </mat-option>
         </mat-select>
@@ -16,14 +28,21 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <th mat-header-cell *matHeaderCellDef>Description </th>
       <td mat-cell *matCellDef="let element" class="row" (click)="onRowClick(element?.id)"> {{element?.description}}
       </td>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="assigneeId">
-      <th mat-header-cell *matHeaderCellDef> Assignee </th>
+      <th mat-header-cell *matHeaderCellDef>
+        <div class="header-wrapper">
+          Assignee
+          <app-filter [menuOptions]="assignees$ | async | getAssigneeOptions"
+            (filterClicked)="assigneeFilterChange($event)"></app-filter>
+
+        </div>
+      </th>
       <td mat-cell *matCellDef="let element">
         <mat-select (selectionChange)="assignUser($event,element)" [value]="element?.assigneeId">
           <mat-option *ngFor="let assignee of assignees$ | async" [value]="assignee?.id">
@@ -38,3 +57,12 @@
   </table>
   <button class="add-task-button" mat-raised-button color="primary" (click)="addNewTask()">+ Add a task</button>
 </div>
+
+
+<ng-template #statusFilterTmpl let-taskStatus let-element>
+  <mat-select (selectionChange)="completeTask($event,element?.id)" [value]="element?.completed">
+    <mat-option *ngFor="let status of taskStatus" [value]="status?.value">
+      {{status?.label}}
+    </mat-option>
+  </mat-select>
+</ng-template>

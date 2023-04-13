@@ -39,7 +39,7 @@ export class AddTaskComponent implements OnInit {
 
   private _initFormGroup() {
     this.formGroup = this._fb.group({
-      description: new FormControl('', [Validators.required]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       assigneeId: new FormControl('')
     }
     )

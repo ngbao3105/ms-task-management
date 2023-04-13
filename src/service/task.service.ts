@@ -6,9 +6,18 @@ import { IBeTask } from 'src/interface/be-model.interface';
 
 @Injectable()
 export class TaskService extends BaseService {
+  private _taskList: IBeTask[];
 
   constructor(private _beService: BackendService) {
     super()
+  }
+
+  public get taskList() {
+    return this._taskList;
+  }
+
+  public set taskList(taskList: IBeTask[]) {
+    this._taskList = taskList;
   }
 
   public getTaskById(id: number) {
@@ -22,6 +31,7 @@ export class TaskService extends BaseService {
   public getTasks() {
     this.setSpinnerLoading(true);
     return this._beService?.tasks().pipe(
+      tap((tasks) => { this.taskList = tasks }),
       catchError(err => throwError(err)),
       finalize(() => this.setSpinnerLoading(false))
     )
