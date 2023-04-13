@@ -13,7 +13,9 @@
       <th mat-header-cell *matHeaderCellDef>
         <div class="header-wrapper">
           Status
-          <app-filter [menuOptions]="taskStatus$ | async" (filterClicked)="statusFilterChange($event)"></app-filter>
+          <app-filter [menuOptions]="taskStatus$ | async"
+            [icon]="filterMap?.completed?.length > 0 ? 'filtered' : 'filter'"
+            (filterClicked)="statusFilterChange($event)"></app-filter>
 
         </div>
       </th>
@@ -39,6 +41,7 @@
         <div class="header-wrapper">
           Assignee
           <app-filter [menuOptions]="assignees$ | async | getAssigneeOptions"
+            [icon]="filterMap?.assigneeIds?.length > 0 ? 'filtered' : 'filter'"
             (filterClicked)="assigneeFilterChange($event)"></app-filter>
 
         </div>

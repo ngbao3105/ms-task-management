@@ -8,8 +8,7 @@ export function getAssigneeMapBySearchString(assignees: IBeAssignee[], filterMap
         if (
             !acc?.has(user) &&
             (filterMap?.searchString && getStringWithSensitiveCase(user?.name)?.includes(getStringWithSensitiveCase(filterMap?.searchString))
-                || filterMap?.assigneeIds?.includes(user?.id))
-        ) {
+            )) {
             acc.set(user?.id, user);
         }
         return acc;

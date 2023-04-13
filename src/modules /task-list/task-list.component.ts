@@ -3,22 +3,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, catchError, debounceTime, filter, fromEvent, map, of, startWith, switchMap, takeUntil, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Subject, catchError, debounceTime, filter, map, of, startWith, switchMap, takeUntil, tap, throwError } from 'rxjs';
 import { SNACK_BAR_CONFIG } from 'src/constant/snackbar.const';
 import { TASK_STATUS } from 'src/constant/task-list.const';
 import { SnackBarMessageEnum } from 'src/enum/snackbar.enum';
 import { IBeAssignee, IBeTask } from 'src/interface/be-model.interface';
-import { BackendService } from 'src/service/mocked-backend.service';
 import { TaskService } from 'src/service/task.service';
 import { UserService } from 'src/service/user.service';
 import { openSnackBar } from 'src/utils/common.util';
 import { AddTaskComponent } from '../add-task/add-task.component';
 import { IFilterMap } from 'src/interface/task-list.interface';
-import { getAssigneeMapBySearchString, getTaskStatusBySearchString } from './task-list.util';
+import { getAssigneeMapBySearchString } from './task-list.util';
 import { FormControl } from '@angular/forms';
 import { INPUT_DEBOUNCE_TIME } from 'src/constant/common.const';
 import { getStringWithSensitiveCase } from 'src/app/utils/filter.util';
 import { IFilterChange } from 'src/interface/filter.interface';
+import { FilterFieldNameEnum } from 'src/enum/filter.enum';
 
 @Component({
   selector: 'app-task-list',
@@ -31,7 +31,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   public isSpinnerLoading$ = new BehaviorSubject(true);
   public taskStatus$ = new BehaviorSubject(TASK_STATUS);
   public searchControl = new FormControl('');
-  private _filterMap: IFilterMap = {};
+  public filterMap: IFilterMap = {};
   private unSubscription$ = new Subject();
   displayedColumns: string[] = ['description', 'completed', 'assigneeId'];
   constructor(private _taskService: TaskService,
@@ -83,8 +83,8 @@ export class TaskListComponent implements OnInit, OnDestroy {
         return throwError(err);
       }),
       switchMap(() => this._taskService.getTasks()),
-    ).subscribe((tasks: IBeTask[]) => {
-      this.tasks$.next(this.getFilterTask(this._filterMap));
+    ).subscribe(() => {
+      this.tasks$.next(this.getFilterTask(this.filterMap));
       openSnackBar(this._matSnackBar, SNACK_BAR_CONFIG[SnackBarMessageEnum.SUCCESS])
 
     })
@@ -92,7 +92,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   completeTask(event: MatSelectChange, taskId: number) {
     let isCompleted = event?.value;
-
     this._taskService.updateTask(taskId, { completed: isCompleted }).pipe(
       catchError(err => {
         openSnackBar(this._matSnackBar, SNACK_BAR_CONFIG[SnackBarMessageEnum.FAILED]);
@@ -104,7 +103,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
       }),
       switchMap(() => this._taskService.getTasks()),
     ).subscribe((tasks: IBeTask[]) => {
-      this.tasks$.next(this.getFilterTask(this._filterMap));
+      this.tasks$.next(this.getFilterTask(this.filterMap));
     })
   }
 
@@ -132,43 +131,44 @@ export class TaskListComponent implements OnInit, OnDestroy {
   }
 
   statusFilterChange(filterChange: IFilterChange) {
-    if (!filterChange?.checked) {
-      this._filterMap['completed'] = this._filterMap?.completed?.filter(status => status !== filterChange?.optionValue);
-    } else {
-      this._filterMap['completed'] = Array.from(new Set([...(this._filterMap['completed'] || []), filterChange?.optionValue])?.values());
-    }
-    this.tasks$.next(this.getFilterTask(this._filterMap));
+    this._filterChange(filterChange, FilterFieldNameEnum.COMPLETED);
+
   }
 
   assigneeFilterChange(filterChange: IFilterChange) {
+    this._filterChange(filterChange, FilterFieldNameEnum.ASSIGNEE_IDS);
+  }
+
+  private _filterChange(filterChange: IFilterChange, filterFieldName: string) {
     if (!filterChange?.checked) {
-      this._filterMap['assigneeIds'] = this._filterMap?.assigneeIds?.filter(id => id !== filterChange?.optionValue);
+      this.filterMap[filterFieldName] = this.filterMap[filterFieldName]?.filter(value => value !== filterChange?.option?.value);
     } else {
-      this._filterMap['assigneeIds'] = Array.from(new Set([...(this._filterMap['assigneeIds'] || []), filterChange?.optionValue])?.values());
+      this.filterMap[filterFieldName] = Array.from(new Set([...(this.filterMap[filterFieldName] || []), filterChange?.option?.value])?.values());
     }
-    this.tasks$.next(this.getFilterTask(this._filterMap));
+    this.tasks$.next(this.getFilterTask(this.filterMap));
   }
 
   private getFilterTask(filterMap: IFilterMap): IBeTask[] {
-    this._filterMap = { ...this._filterMap, ...filterMap };
-    let filteredAssigneeMap;
-    let searchString = getStringWithSensitiveCase(this._filterMap?.searchString);
+    this.filterMap = { ...this.filterMap, ...filterMap };
+    console.log(this.filterMap);
+
     let filteredTasks = this._taskService?.taskList;
     // assigneeId filter section
-    if (!!this._filterMap?.assigneeIds && this._filterMap?.assigneeIds?.length > 0) {
-      filteredAssigneeMap = getAssigneeMapBySearchString(this._userService?.users, this._filterMap) || undefined;
+    if (!!this.filterMap?.assigneeIds && this.filterMap?.assigneeIds?.length > 0) {
       filteredTasks = filteredTasks?.filter(task =>
-        (filteredAssigneeMap && filteredAssigneeMap.has(task?.assigneeId)))
+        this.filterMap?.assigneeIds?.includes(task?.assigneeId))
     }
     // status filter section
-    if (!!this._filterMap?.completed && this._filterMap?.completed?.length > 0) {
-      filteredTasks = filteredTasks?.filter(task => this._filterMap?.completed?.includes(task?.completed));
+    if (!!this.filterMap?.completed && this.filterMap?.completed?.length > 0) {
+      filteredTasks = filteredTasks?.filter(task => this.filterMap?.completed?.includes(task?.completed));
     }
     // everything filter section
-    if (!!this._filterMap?.searchString) {
+    if (!!this.filterMap?.searchString) {
+      let searchString = getStringWithSensitiveCase(this.filterMap?.searchString);
+      let filteredAssigneeMap = getAssigneeMapBySearchString(this._userService?.users, this.filterMap) || undefined;
       filteredTasks = filteredTasks?.filter(task => getStringWithSensitiveCase(task?.description)?.includes(searchString)
         || filteredAssigneeMap?.has(task?.assigneeId)
-        || this._filterMap?.completed?.includes(task?.completed)
+        || this.filterMap?.completed?.includes(task?.completed)
       );
     }
     return filteredTasks;

@@ -27,7 +27,6 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
     this._asyncActions();
     this._route.paramMap.
       pipe(
-
         switchMap((params: ParamMap) => {
           return this._taskService.getTaskById(Number(params.get('id')));
         }),

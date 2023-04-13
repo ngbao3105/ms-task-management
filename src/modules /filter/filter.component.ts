@@ -11,12 +11,12 @@ import { IFilterChange, IFilterMenuOption } from 'src/interface/filter.interface
 })
 export class FilterComponent {
   public isShowMenu: false;
+  @Input() icon: string = 'filter';
   @Input() menuOptions: IFilterMenuOption[];
   @Output() filterClicked = new EventEmitter<IFilterChange>()
 
 
   onOptionChanged(event: MatCheckboxChange, option: IFilterMenuOption) {
-    this.filterClicked?.emit({ checked: event?.checked, optionValue: option?.value })
-
+    this.filterClicked?.emit({ checked: event?.checked, option: option })
   }
 }

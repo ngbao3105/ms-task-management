@@ -5,5 +5,5 @@ export interface IFilterMenuOption {
 
 export interface IFilterChange {
     checked?: boolean;
-    optionValue?: any;
+    option?: IFilterMenuOption;
 }
