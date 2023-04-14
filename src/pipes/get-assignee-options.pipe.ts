@@ -8,7 +8,7 @@ import { IFilterMenuOption } from 'src/interface/filter.interface';
 })
 export class GetAssigneeOptions implements PipeTransform {
   transform(assignees: IBeAssignee[]): IFilterMenuOption[] {
-    return assignees?.map(assignee => ({ value: assignee?.id, label: assignee?.name }));
+    return [{ value: null, label: 'Not assigned yet' }, ...assignees?.map(assignee => ({ value: assignee?.id, label: assignee?.name }))];
   }
 
 }

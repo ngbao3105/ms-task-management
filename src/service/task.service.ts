@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BackendService } from './mocked-backend.service';
 import { BaseService } from './base.service';
-import { catchError, finalize, tap, throwError } from 'rxjs';
+import { catchError, finalize, map, tap, throwError } from 'rxjs';
 import { IBeTask } from 'src/interface/be-model.interface';
 
 @Injectable()
@@ -31,9 +31,10 @@ export class TaskService extends BaseService {
   public getTasks() {
     this.setSpinnerLoading(true);
     return this._beService?.tasks().pipe(
-      tap((tasks) => { this.taskList = tasks }),
       catchError(err => throwError(err)),
-      finalize(() => this.setSpinnerLoading(false))
+      finalize(() => this.setSpinnerLoading(false)),
+      map((tasks) => tasks?.map((task, index) => ({ ...task, index }))),
+      tap(tasks => this.taskList = tasks)
     )
   }
 

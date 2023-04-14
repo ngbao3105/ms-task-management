@@ -43,6 +43,13 @@
   width: 15%;
 }
 
+.footer{
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @media only screen and (max-width:768px) {
   .mat-column-assigneeId{
     display: none;

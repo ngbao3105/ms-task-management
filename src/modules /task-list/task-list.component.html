@@ -8,8 +8,14 @@
     </mat-form-field>
   </div>
   <table mat-table [dataSource]="tasks$ | async" class="mat-elevation-z8">
-    <!-- Position Column -->
+
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef>No. </th>
+      <td mat-cell *matCellDef="let element" class="row"> {{element?.index +1}}
+      </td>
+    </ng-container>
     <ng-container matColumnDef="completed">
+
       <th mat-header-cell *matHeaderCellDef>
         <div class="header-wrapper">
           Status
@@ -28,14 +34,12 @@
       </td>
     </ng-container>
 
-    <!-- Name Column -->
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description </th>
       <td mat-cell *matCellDef="let element" class="row" (click)="onRowClick(element?.id)"> {{element?.description}}
       </td>
     </ng-container>
 
-    <!-- Weight Column -->
     <ng-container matColumnDef="assigneeId">
       <th mat-header-cell *matHeaderCellDef>
         <div class="header-wrapper">
@@ -58,7 +62,12 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <button class="add-task-button" mat-raised-button color="primary" (click)="addNewTask()">+ Add a task</button>
+  <div class="footer">
+    <button class="add-task-button" mat-raised-button color="primary" (click)="addNewTask()">+ Add a task</button>
+    <mat-paginator (page)="onPageChanged($event)" [pageIndex]="pageIndex" [length]="totalTasks" [pageSize]="pageSize"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
 </div>
 
 

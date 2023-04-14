@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FilterModule } from '../filter/filter.module';
 import { GetAssigneeOptions } from 'src/pipes/get-assignee-options.pipe';
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
   declarations: [
     TaskListComponent,
@@ -34,7 +35,8 @@ import { GetAssigneeOptions } from 'src/pipes/get-assignee-options.pipe';
     MatIconModule,
     AddTaskModule,
     MatDialogModule,
-    FilterModule
+    FilterModule,
+    MatPaginatorModule
   ],
   providers: [BackendService, UserService, TaskService]
 })
