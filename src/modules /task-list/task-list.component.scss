@@ -31,6 +31,7 @@
 
 .list-search-bar{
   width: 100%;
+  margin-bottom: 10px;
   .mat-mdc-form-field{
   width: 100%;
 }
@@ -41,6 +42,12 @@
 
 .mat-column-completed{
   width: 15%;
+}
+
+.spinner{
+  height: 10px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .footer{

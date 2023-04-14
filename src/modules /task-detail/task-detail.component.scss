@@ -5,9 +5,12 @@
     justify-content: center;
     align-items: center;
 }
+
 .task-detail{
     padding:50px;
+    position: relative;
     max-width: 90%;
+    min-width: 50%;
     border: 1px solid rgba($color: grey, $alpha: 0.5);;
     background-color: rgba($color: grey, $alpha: 0.1);
     border-radius: 6px;
@@ -17,6 +20,12 @@
     }
     .label{
         font-weight: bold;
+    }
+    .spinner{
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
     }
     
 }

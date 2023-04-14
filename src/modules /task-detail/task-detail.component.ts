@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { BehaviorSubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { IBeAssignee, IBeTask } from 'src/interface/be-model.interface';

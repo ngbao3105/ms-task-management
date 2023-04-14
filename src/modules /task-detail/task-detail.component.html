@@ -1,6 +1,6 @@
-<mat-progress-bar *ngIf="isSpinnerLoading$| async" mode="indeterminate"></mat-progress-bar>
 <div class="wrapper">
     <div class="task-detail" *ngIf="taskDetail$ | async as taskDetail">
+        <mat-progress-bar class="spinner" *ngIf="isSpinnerLoading$| async" mode="indeterminate"></mat-progress-bar>
         <div class="task-detail__item ">
             <p class="label">Description: </p>
             <p class="content"> {{taskDetail?.description}}</p>

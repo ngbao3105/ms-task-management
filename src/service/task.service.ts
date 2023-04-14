@@ -32,9 +32,9 @@ export class TaskService extends BaseService {
     this.setSpinnerLoading(true);
     return this._beService?.tasks().pipe(
       catchError(err => throwError(err)),
-      finalize(() => this.setSpinnerLoading(false)),
       map((tasks) => tasks?.map((task, index) => ({ ...task, index }))),
-      tap(tasks => this.taskList = tasks)
+      tap(tasks => this.taskList = tasks),
+      finalize(() => this.setSpinnerLoading(false)),
     )
   }
 

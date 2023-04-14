@@ -1,6 +1,7 @@
 <div class="wrapper">
-
-  <mat-progress-bar *ngIf="isSpinnerLoading$ | async" mode="indeterminate"></mat-progress-bar>
+  <div class="spinner">
+    <mat-progress-bar *ngIf="isSpinnerLoading$ | async" mode="indeterminate"></mat-progress-bar>
+  </div>
   <div class="list-search-bar">
     <mat-form-field>
       <mat-label>Search tasks by description, status or assignee</mat-label>
