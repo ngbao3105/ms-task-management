@@ -162,7 +162,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
   private getFilterTask(filterMap: IFilterMap): IBeTask[] {
     this.filterMap = { ...this.filterMap, ...filterMap };
-
     let filteredTasks = this._taskService?.taskList;
     // assigneeId filter section
     if (!!this.filterMap?.assigneeIds && this.filterMap?.assigneeIds?.length > 0) {
@@ -179,7 +178,6 @@ export class TaskListComponent implements OnInit, OnDestroy {
       let filteredAssigneeMap = getAssigneeMapBySearchString(this._userService?.users, this.filterMap) || undefined;
       filteredTasks = filteredTasks?.filter(task => getStringWithSensitiveCase(task?.description)?.includes(searchString)
         || filteredAssigneeMap?.has(task?.assigneeId)
-        || this.filterMap?.completed?.includes(task?.completed)
       );
     }
     this.pageIndex = 0;
