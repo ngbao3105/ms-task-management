@@ -176,8 +176,10 @@ export class TaskListComponent implements OnInit, OnDestroy {
     if (!!this.filterMap?.searchString) {
       let searchString = getStringWithSensitiveCase(this.filterMap?.searchString);
       let filteredAssigneeMap = getAssigneeMapBySearchString(this._userService?.users, this.filterMap) || undefined;
+      let filteredStatus = TASK_STATUS?.filter(status => getStringWithSensitiveCase(status?.label)?.includes(searchString))?.map(status => status?.value);
       filteredTasks = filteredTasks?.filter(task => getStringWithSensitiveCase(task?.description)?.includes(searchString)
         || filteredAssigneeMap?.has(task?.assigneeId)
+        || filteredStatus?.includes(task?.completed)
       );
     }
     this.pageIndex = 0;
